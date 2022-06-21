@@ -7,7 +7,7 @@ import com.github.bhlangonijr.chesslib.Side;
 import com.github.bhlangonijr.chesslib.move.Move;
 
 public class Search {
-   public static int negamax(Board board, int depth, int ply) {
+   public static int negamax(Board board, int depth, int ply, int alpha, int beta) {
       List<Move> moves = board.legalMoves();
       if (depth <= 0 || moves.isEmpty()) {
          return Evaluation.evaluate(board, depth);
@@ -17,19 +17,23 @@ public class Search {
       int bestEval = Integer.MIN_VALUE;
       for (Move m : moves) {
          board.doMove(m);
-         int eval = -negamax(board, depth - 1, ply + 1);
+         int eval = -negamax(board, depth - 1, ply + 1, -beta ,-alpha);
          board.undoMove();
-         if (eval > bestEval) {
-            bestEval = eval;
+         if (eval >= beta) {
+            return beta;
+         }
+         if ( eval > alpha ) {
+            alpha = eval;
+         }
          }
       }
-      return bestEval;
+      return alpha;
    }
 
    public static Move TLnegamax(Board board, int depth, int ply, int returnScore[]) {
       List<Move> moves = board.legalMoves();
       if (depth <= 0 || moves.isEmpty()) {
-         return new Move("a2a4", Side.WHITE);
+         return new Move("a2a4", Side.WHITE); 
       }
       int bestEval = Integer.MIN_VALUE;
       Move bestMove = moves.get(0);
