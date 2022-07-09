@@ -121,7 +121,7 @@ public class UCI {
       System.out.println("bestmove " + bestMove);    
 
       // time taken for computation, debug purpose
-      System.out.println("found in " + (end - start) + " ms");
+      System.out.println("info time " + (end - start));
    }
 
    // function called when "quit" is received through UCI, quits the program, debug
