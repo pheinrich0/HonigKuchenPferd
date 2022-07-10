@@ -1,0 +1,1 @@
+java -jar "%~dp0/target/tollerBot-0.1.jar"
