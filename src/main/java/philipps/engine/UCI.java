@@ -71,11 +71,11 @@ public class UCI {
    public static void inputPosition(Board board, String input) {
 
       input = input.substring(9).concat(" ");
-
       boolean fenEnd = false;
       if (input.contains("startpos ")) {
          fenEnd = true;
-         input = input.substring(9);
+         int pos = input.indexOf("startpos");
+         input = input.substring(pos + 9);
          board.loadFromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
       }
       StringTokenizer tokens = new StringTokenizer(input, " ");
@@ -101,7 +101,7 @@ public class UCI {
             fen += " " + str;
          }
       }
-      if (!fenEnd){
+      if (!fenEnd) {
          board.loadFromFen(fen.trim());
       }
    }
@@ -118,7 +118,7 @@ public class UCI {
       long end = System.currentTimeMillis();
       System.out.println("info depth 3 score cp " + eval[0]);
       // send the move we consider the best through UCI
-      System.out.println("bestmove " + bestMove);    
+      System.out.println("bestmove " + bestMove);
 
       // time taken for computation, debug purpose
       System.out.println("info time " + (end - start));
