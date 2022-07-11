@@ -80,7 +80,7 @@
             <archive>
               <manifest>
                 <addClasspath>true</addClasspath>
-                <classpathPrefix>lib/</classpathPrefix>
+                <classpathPrefix>dependency/</classpathPrefix>
                 <mainClass>philipps.engine.App</mainClass>
               </manifest>
             </archive>
