@@ -2,8 +2,6 @@ package philipps.engine;
 
 import static org.junit.Assert.assertTrue;
 
-import java.lang.reflect.Array;
-
 import org.junit.Test;
 
 import com.github.bhlangonijr.chesslib.Board;
