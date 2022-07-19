@@ -51,4 +51,20 @@ public class Search {
       returnScore[0] = bestEval;
       return bestMove;
    }
+   public static Move iterativeDeepening(Board board, long time) {
+      long start = System.currentTimeMillis();
+      long bufferTime = time / 15;
+      int depth = 1;
+      Move bestMove = new Move(Square.A2, Square.A4);
+      int score[] = { 0 };
+      while (System.currentTimeMillis() - start <= bufferTime) {
+         depth++;
+         long evalStart = System.nanoTime();
+         bestMove = TLnegamax(board, depth, 1, score);
+         long elapsed = (System.nanoTime() - evalStart) / 1000000;
+         System.out.printf("info depth %d score cp %d time %d\r\n", depth, score[0], elapsed);
+      }
+      System.out.println("bestmove " + bestMove);
+      return bestMove;
+   }
 }

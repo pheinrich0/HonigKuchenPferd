@@ -107,21 +107,39 @@ public class UCI {
    }
 
    // function called when its our turn to compute !
-   public static void inputGo(Board board) {
-
-      // principle taken from :
-      // https://github.com/Garee/jchess/blob/master/src/model/AI.java
+public static void inputGo(Board board, String input) {
+      String color = board.getSideToMove().equals(Side.WHITE) ? "w" : "b";
       long start = System.currentTimeMillis();
-      Move bestMove = new Move("a2a4", Side.WHITE);
-      int eval[] = { 1 };
-      bestMove = Search.TLnegamax(board, 3, 1, eval);
+      int myTime = 100;
+      int myIncrement = 0;
+      StringTokenizer tokens = new StringTokenizer(input, " ");
+      while (tokens.hasMoreTokens()) {
+         String str = tokens.nextToken();
+         if ((color+"time").equals(str)){
+            str = tokens.nextToken();
+            myTime = Integer.parseInt(str);
+         } else if ((color+"inc").equals(str)){
+            str = tokens.nextToken();
+            myIncrement = Integer.parseInt(str);
+         }
+      }
+      long timeToUse = myTime/50;
+      if (myTime * 3 > myIncrement){
+         timeToUse += myIncrement*10 / 9;
+      }
+      final long finalTime = timeToUse;
+      //Move bestMove = new Move("a2a4", Side.WHITE);
+      //int eval[] = { 1 };
+      Move bestMove = Search.iterativeDeepening(board, timeToUse);
+      //CompletableFuture.supplyAsync(()->Search.iterativeDeepening(board, finalTime));
+      //bestMove = Search.TLnegamax(board, 3, 1, eval);
       long end = System.currentTimeMillis();
-      System.out.println("info depth 3 score cp " + eval[0]);
+      //System.out.println("info depth 3 score cp " + eval[0]);
       // send the move we consider the best through UCI
-      System.out.println("bestmove " + bestMove);
+      //System.out.println("bestmove " + bestMove);
 
       // time taken for computation, debug purpose
-      System.out.println("info time " + (end - start));
+      System.out.println("found in " + (end - start) + " ms");
    }
 
    // function called when "quit" is received through UCI, quits the program, debug
