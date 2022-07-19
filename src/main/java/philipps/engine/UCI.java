@@ -36,7 +36,7 @@ public class UCI {
          } else if (inputString.startsWith("position")) {
             inputPosition(board, inputString);
          } else if (inputString.startsWith("go")) {
-            inputGo(board);
+            inputGo(board, inputString);
          } else if (inputString.equals("quit")) {
             inputQuit();
          }
