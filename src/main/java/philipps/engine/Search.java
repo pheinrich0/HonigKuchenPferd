@@ -25,16 +25,14 @@ public class Search {
          }
          if (eval > alpha) {
             alpha = eval;
-         }
-         if (eval > bestEval){
-            bestEval = eval;
-         }
+         } 
       }
       return alpha;
    }
 
    public static Move TLnegamax(Board board, int depth, int ply, int returnScore[]) {
       List<Move> moves = board.legalMoves();
+
       if (depth <= 0 || moves.isEmpty()) {
          return new Move("a2a4", Side.WHITE);
       }
@@ -42,12 +40,12 @@ public class Search {
       Move bestMove = moves.get(0);
       for (Move m : moves) {
          board.doMove(m);
-         int eval = -negamax(board, depth - 1, ply + 1, -Integer.MAX_VALUE, Integer.MAX_VALUE);
+         int eval = -negamax(board, depth - 1, ply + 1, bestEval, Integer.MAX_VALUE);
          board.undoMove();
          if (eval > bestEval) {
             bestEval = eval;
             bestMove = m;
-         }
+         }        
       }
       returnScore[0] = bestEval;
       return bestMove;
