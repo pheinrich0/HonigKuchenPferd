@@ -40,13 +40,13 @@ public class Search {
       Move bestMove = moves.get(0);
       for (Move m : moves) {
          board.doMove(m);
-         int eval = -negamax(board, depth - 1, ply + 1, bestEval, Integer.MAX_VALUE);
+         int eval = -negamax(board, depth - 1, ply + 1, Integer.MIN_VALUE, -bestEval);
          board.undoMove();
          if (eval > bestEval) {
             bestEval = eval;
             bestMove = m;
          }        
-      }
+      }   
       returnScore[0] = bestEval;
       return bestMove;
    }
