@@ -107,36 +107,43 @@ public class UCI {
    }
 
    // function called when its our turn to compute !
-public static void inputGo(Board board, String input) {
+   public static void inputGo(Board board, String input) {
       String color = board.getSideToMove().equals(Side.WHITE) ? "w" : "b";
       long start = System.currentTimeMillis();
+      int fixedTime = 0;
       int myTime = 100;
       int myIncrement = 0;
       StringTokenizer tokens = new StringTokenizer(input, " ");
       while (tokens.hasMoreTokens()) {
          String str = tokens.nextToken();
-         if ((color+"time").equals(str)){
+         if ((color + "time").equals(str)) {
             str = tokens.nextToken();
             myTime = Integer.parseInt(str);
-         } else if ((color+"inc").equals(str)){
+         } else if ((color + "inc").equals(str)) {
             str = tokens.nextToken();
             myIncrement = Integer.parseInt(str);
+         } else if ("movetime".equals(str)) {
+            str = tokens.nextToken();
+            fixedTime = Integer.parseInt(str);
+         } else if ("depth".equals(str)) {
+            str = tokens.nextToken();
+            int goDepth = Integer.parseInt(str);
+            int[] score = { 0 };
+            long evalStart = System.nanoTime();
+            Move bestMove = Search.TLnegamax(board, goDepth, 0, score);
+            long elapsed = (System.nanoTime() - evalStart) / 1000000;
+            System.out.printf("info depth %d score cp %d time %d\r\n", goDepth, score[0], elapsed);
+            System.out.println("bestmove " + bestMove);
+            return;
          }
       }
-      long timeToUse = myTime/50;
-      if (myTime * 3 > myIncrement){
-         timeToUse += myIncrement*10 / 9;
+      long timeToUse = myTime / 50;
+      if (myTime * 3 > myIncrement) {
+         timeToUse += myIncrement * 10 / 9;
       }
-      final long finalTime = timeToUse;
-      //Move bestMove = new Move("a2a4", Side.WHITE);
-      //int eval[] = { 1 };
-      Move bestMove = Search.iterativeDeepening(board, timeToUse);
-      //CompletableFuture.supplyAsync(()->Search.iterativeDeepening(board, finalTime));
-      //bestMove = Search.TLnegamax(board, 3, 1, eval);
+      final long finalTime = fixedTime > 0 ? fixedTime : timeToUse;
+      Move bestMove = Search.iterativeDeepening(board, finalTime);
       long end = System.currentTimeMillis();
-      //System.out.println("info depth 3 score cp " + eval[0]);
-      // send the move we consider the best through UCI
-      //System.out.println("bestmove " + bestMove);
 
       // time taken for computation, debug purpose
       System.out.println("found in " + (end - start) + " ms");
