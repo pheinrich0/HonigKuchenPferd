@@ -19,11 +19,30 @@ public class Evaluation {
          }
          Side pSide = p.getPieceSide();
          if (pSide == us) {
-            material += board.getPieceLocation(p).size();
+            material += getPieceValue(p);
          } else {
-            material -= board.getPieceLocation(p).size();
+            material -= getPieceValue(p);
          }
       }
       return material;
+   }
+   public int getPieceValue (Piece p) {
+      switch (p.getPieceValue)
+      {
+         case PAWN:
+         return 100;
+         case KNIGHT:
+         return 300;
+         case BISHOP:
+         return 300;
+         case ROOK:
+         return 500;
+         case QUEEN:
+         return 900;
+         case KING:
+         return 0;
+      
+      }
+
    }
 }
