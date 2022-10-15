@@ -40,6 +40,9 @@ public class Evaluation {
          return 900;
          case KING:
          return 0;
+         default:
+         break;
+         
       
       }
 
