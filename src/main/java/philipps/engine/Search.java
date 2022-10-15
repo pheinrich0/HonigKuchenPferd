@@ -8,7 +8,7 @@ import com.github.bhlangonijr.chesslib.Square;
 import com.github.bhlangonijr.chesslib.move.Move;
 
 public class Search {
-   public static int negamax(Board board, int depth, int ply, int alpha , int beta) {
+   public static int negamax(Board board, int depth, int ply, int alpha, int beta) {
       List<Move> moves = board.legalMoves();
       if (depth <= 0 || moves.isEmpty()) {
          return Evaluation.evaluate(board, depth);
@@ -25,7 +25,7 @@ public class Search {
          }
          if (eval > alpha) {
             alpha = eval;
-         } 
+         }
       }
       return alpha;
    }
@@ -36,20 +36,21 @@ public class Search {
       if (depth <= 0 || moves.isEmpty()) {
          return new Move("a2a4", Side.WHITE);
       }
-      int bestEval = Integer.MIN_VALUE;
+      int bestEval = -Integer.MAX_VALUE;
       Move bestMove = moves.get(0);
       for (Move m : moves) {
          board.doMove(m);
-         int eval = -negamax(board, depth - 1, ply + 1, Integer.MIN_VALUE, -bestEval);
+         int eval = -negamax(board, depth - 1, ply + 1, -Integer.MAX_VALUE, -bestEval);
          board.undoMove();
          if (eval > bestEval) {
             bestEval = eval;
             bestMove = m;
-         }        
-      }   
+         }
+      }
       returnScore[0] = bestEval;
       return bestMove;
    }
+
    public static Move iterativeDeepening(Board board, long time) {
       long start = System.currentTimeMillis();
       long bufferTime = time / 15;
