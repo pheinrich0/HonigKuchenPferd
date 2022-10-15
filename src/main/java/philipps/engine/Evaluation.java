@@ -41,8 +41,8 @@ public class Evaluation {
          case KING:
          return 0;
          default:
-         break;
-         
+         return 0;
+
       
       }
 
