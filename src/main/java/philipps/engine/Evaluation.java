@@ -27,7 +27,7 @@ public class Evaluation {
       return material;
    }
    public int getPieceValue (Piece p) {
-      switch (p.getPieceType){
+      switch (p.getPieceType()){
          case PAWN:
          return 100;
          case KNIGHT:
