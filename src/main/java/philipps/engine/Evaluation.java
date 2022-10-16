@@ -19,9 +19,11 @@ public class Evaluation {
          }
          Side pSide = p.getPieceSide();
          if (pSide == us) {
-            material += getPieceValue(p);
+
+
+            material += board.getPieceLocation(p).size()*getPieceValue(p);
          } else {
-            material -= getPieceValue(p);
+            material -= board.getPieceLocation(p).size()*getPieceValue(p);
          }
       }
       return material;
